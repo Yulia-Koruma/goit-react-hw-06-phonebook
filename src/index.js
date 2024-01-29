@@ -1,21 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { App } from 'components/App/App';
+import { store, persistor } from './redux/store';
+import { App } from 'components/App';
 import { ThemeProvider } from 'styled-components';
-import { theme } from 'styles';
-import { persistor, store } from 'redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
+const theme = {
+  colors: {
+    background: '#F6F6F6',
+    green: '#008000',
+    red: '#FF0000',
+    black: '#2a2a2a',
+    blue: '#87CEEB',
+    white: '#FFFAFA',
+  },
+  radii: {
+    sm: '4px',
+    md: '12px',
+    lg: '16px',
+  },
+  spacing: value => `${value * 4}px`,
+};
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
           <App />
-        </ThemeProvider>
-      </PersistGate>
-    </Provider>
+        </PersistGate>
+      </Provider>
+    </ThemeProvider>
   </React.StrictMode>
 );
