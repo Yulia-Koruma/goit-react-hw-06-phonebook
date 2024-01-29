@@ -13,14 +13,19 @@ import {
 import { addContact } from '../../redux/contactsSlice';
 
 const formSchema = Yup.object().shape({
-  name: Yup.string().min(2, 'Too Short!').required('Required'),
-  number: Yup.string()
-    .matches(
-      /^(\d{2,}-\d{2,}-\d{2,}|\d{2,}-\d{2,}|\d{5,})$/,
-      'Phone number is not valid. Min 7 numbers (101-01-01)'
-    )
-    .required('Required'),
+    name: Yup.string()
+    .min(2, 'Name must contain at least 2 characters')
+    .max(40, 'Too long name')
+    .required('Name is required!'),
+    number: Yup.string()
+    .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/, {
+        message: 'Invalid Phone Number!',
+        excludeEmptyString: false,
+    })
+    .required('Phone number is required!')
+    .max(15, 'Invalid phone number!'),
 });
+
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
